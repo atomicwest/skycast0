@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, get_object_or_404, redirect
 
-# from .models import Query
+from .models import Query
 
 from django.contrib import auth
 from django.contrib.auth import authenticate, login, logout, get_user_model
@@ -31,7 +31,15 @@ def search(request):
         
         if form.is_valid():
             content = form.cleaned_data['location']
-            print content
+            # print content
+            
+            #if a user is logged in, copy the location to a query object
+            #associate with the user id, then save query object to db
+            if request.user.is_authenticated():
+                print request.user.id
+                q = Query(userid=request.user, query=content)
+                q.save()
+                
             #now pass content to api handlers
             weatherdata = apiCurrentHandler(content)
             # return HttpResponseRedirect("")
@@ -54,6 +62,17 @@ def timesearch(request):
             content['endyear'] = form.cleaned_data['endyear']
             content['endmonth'] = form.cleaned_data['endmonth']
             content['endday'] = form.cleaned_data['endday']
+            
+            
+            #if a user is logged in, copy the location to a query object
+            #associate with the user id, then save query object to db
+            if request.user.is_authenticated():
+                recorddate = "%s | Start on %s-%s-%s, End on %s-%s-%s" % (content['location'],
+                    content['startyear'],content['startmonth'], content['startday'], 
+                    content['endyear'], content['endmonth'], content['endday']
+                )
+                q = Query(userid=request.user, query=recorddate)
+                q.save()
             
             #this dictionary should contain the plotly graph urls
             graphs = apiTimeMachineHandler(content)
@@ -123,9 +142,13 @@ def login_view(request):
     
 
 
-            
-        
-        
+def homepage(request):
+    
+    if request.user.is_authenticated():
+        queries = Query.objects.filter(userid=request.user.id)
+        return render(request,'fetchw/user-profile.html', {'queries':queries})
+    else:
+        return render(request,'fetchw/search.html')
         
     
     

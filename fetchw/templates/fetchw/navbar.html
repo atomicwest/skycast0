@@ -25,6 +25,7 @@
           <a href="{% url 'fetchw:search' %}" class="btn btn-primary" role="button" aria-disabled="true">New Search</a>
           
           {% if user.is_authenticated %}
+            <a href="{% url 'fetchw:homepage' %}" class="btn btn-primary" role="button" aria-disabled="true">{{ user.username }}'s Profile</a>
             <a href="{% url 'fetchw:logout' %}" class="btn btn-primary" role="button" aria-disabled="true">Log Out</a>
           {% else %}
             <a href="{% url 'fetchw:register' %}" class="btn btn-primary" role="button" aria-disabled="true">Register</a>

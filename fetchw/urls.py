@@ -24,4 +24,7 @@ urlpatterns = [
     #/fetchw/timesearch
     url(r'^timesearch/$', views.timesearch, name='timesearch'),
     
+    #/fetchw/homepage
+    url(r'^homepage/$', views.homepage, name='homepage'),
+    
 ]
