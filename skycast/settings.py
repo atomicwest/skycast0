@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '32w-xndp$n(6c#j+-u%du8+kf^cx2-(-r$ys3^g+$8*!ucn*3y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['skycast-atomicwest.c9users.io']
 
