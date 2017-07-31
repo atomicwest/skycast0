@@ -59,7 +59,7 @@
                             {% for day in weather.forecast %} 
                             <div class="row">
                                 <h3> {{ day.date }} </h3>
-                                <h4>{{ weather.current.summary }}</h4>
+                                <h4>{{ day.summary }}</h4>
                                 <img width="15%" src="../../static/img/{{day.icon}}.png" alt="img/{{ day.icon }}.png">
                                 
                                 <p>Highs: {{ day.high }}</p>

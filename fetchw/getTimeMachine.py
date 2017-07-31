@@ -180,8 +180,8 @@ def graphHistorical(historical):
     
     # dataTd = go.Data(dataT)
     # dataPd = go.Data(dataP)
-    urlT = py.plot(figT, filename = filenameT)
-    urlP = py.plot(figP, filename = filenameP)
+    urlT = py.plot(figT, filename = filenameT, auto_open=False)
+    urlP = py.plot(figP, filename = filenameP, auto_open=False)
     
     
     return {"tempUrl": urlT, "presUrl" : urlP}
