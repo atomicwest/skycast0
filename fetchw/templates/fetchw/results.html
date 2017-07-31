@@ -12,7 +12,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     {% if weather %}
-                        <h4>Current Weather for {{ weather.inputQ }} on {{ weather.current.date }} GMT </h4>
+                        <h2>Current Weather for {{ weather.inputQ }} on {{ weather.current.date }} GMT </h2>
                             
                             <h1>{{ weather.current.summary }}</h1>
                             
@@ -24,7 +24,7 @@
                             
                             <p>Humidity: {{ weather.current.humidity }}</p>
                             
-                            <p>Change of Precipitation: {{ weather.current.precipProbability }}</p>
+                            <p>Chance of Precipitation: {{ weather.current.precipProbability }}</p>
                             
                             {% if weather.current.alerts %}
                                 <hr>

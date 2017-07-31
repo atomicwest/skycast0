@@ -18,9 +18,8 @@ def convertSec(s):
     return time
 
 
-def getLocation():
+def getLocation(place):
     
-    place = raw_input("Enter a location: \n")
     address = place.replace(' ', '+')
     url = "https://maps.googleapis.com/maps/api/geocode/json?address="
     keyConcat = "&key="
@@ -36,28 +35,6 @@ def getLatLong(d):
     latlong = jsonData["results"][0]["geometry"]["location"]
     coords = (latlong["lat"], latlong["lng"])
     return coords
-
-
-def getStartTime():
-	yr = raw_input('Enter a start year\n')
-	month = raw_input('Enter a start month\n')
-	day = raw_input('Enter a start day\n')
-	
-	startTime = ''
-	startTime = '%s-%s-%sT00:00:00' % (yr, month, day)
-	dateOnly = "%s-%s-%s" % (yr,month,day)
-	return (dateOnly,startTime)
-
-
-def getEndTime():
-	yr = raw_input('Enter a end year\n')
-	month = raw_input('Enter a end month\n')
-	day = raw_input('Enter a end day\n')
-	
-	startTime = ''
-	startTime = '%s-%s-%sT00:00:00' % (yr, month, day)
-	dateOnly = "%s-%s-%s" % (yr,month,day)
-	return (dateOnly,startTime)
 
 
 def getWeather(lat, lng, startTime):
@@ -102,8 +79,11 @@ def getHistorical(loc, lat, lng, starttime, startfull ,endtime, endfull):
     lowTempSet = []
     daySet = []
     
-    while (int(startyear) < int(endyear)):
-        startyear = str(int(startyear) + 1)
+    pressureSet = []
+    daySetPressure = []
+    
+    while (int(startyear) < int(endyear)+1):
+        
         while(int(startmonth) < 13):
         
             nextTime = '%s-%s-%sT00:00:00' % (startyear, startmonth, startday)
@@ -117,8 +97,11 @@ def getHistorical(loc, lat, lng, starttime, startfull ,endtime, endfull):
                     highTempSet.append(nextPoint['daily']['data'][0]['temperatureMax'])
                     lowTempSet.append(nextPoint['daily']['data'][0]['temperatureMin'])
                     daySet.append(nextTime[0:10])
-
-            
+                    
+                if ('pressure' in nextPoint['daily']['data'][0]):
+                    pressureSet.append(nextPoint['daily']['data'][0]['pressure'])
+                    daySetPressure.append(nextTime[0:10])
+                
             
             if int(startmonth)+1 < 10:
                 startmonth = '0' + str(int(startmonth)+1)
@@ -128,8 +111,9 @@ def getHistorical(loc, lat, lng, starttime, startfull ,endtime, endfull):
             if int(startyear)==int(endyear) and int(startmonth) > int(endmonth):
                 break
         startmonth = '01'
+        startyear = str(int(startyear) + 1)
         
-    return [highTempSet, lowTempSet, daySet, filename]
+    return [highTempSet, lowTempSet, daySet, filename, pressureSet, daySetPressure]
 
 
 def graphHistorical(historical):
@@ -138,7 +122,11 @@ def graphHistorical(historical):
     daySet = historical[2]
     place_range = historical[3]
     
-    line0 = go.Scatter(
+    pressureSet = historical[4]
+    daySetPressure = historical[5]
+    
+    
+    lineHighTemp = go.Scatter(
         x = daySet,
         y = highTempSet,
         name = 'Highs',
@@ -148,7 +136,7 @@ def graphHistorical(historical):
     )
     
     
-    line1 = go.Scatter(
+    lineLowTemp = go.Scatter(
         x = daySet,
         y = lowTempSet,
         name = 'Lows',
@@ -157,25 +145,51 @@ def graphHistorical(historical):
             width = 4)
     )
     
-    data = [line0, line1]
+    
+    linePressure = go.Scatter(
+        x = daySetPressure,
+        y = pressureSet,
+        name = 'Sea-Level Air Pressure',
+        line = dict(
+            color = ('rgb(150, 227, 255)'),
+            width = 4)
+    )
+    
+    
+    dataT = [lineHighTemp, lineLowTemp]
+    dataP = [linePressure]
     
     # Edit the layout
-    layout = dict(title = "Historical High and Low  Temperatures for " + place_range,
-                  xaxis = dict(title = 'Days'),
+    layoutT = dict(title = "Historical High and Low  Temperatures for " + place_range,
+                  xaxis = dict(title = 'Time'),
                   yaxis = dict(title = 'Temperature (degrees F)'),
                   )
     
-    fig = dict(data=data, layout=layout)
+    layoutP = dict(title = "Historical Sea-Level Air Pressure for " + place_range,
+                  xaxis = dict(title = 'Time'),
+                  yaxis = dict(title = 'millibars'),
+                  )
+    
+    figT = dict(data=dataT, layout=layoutT)
+    figP = dict(data=dataP, layout=layoutP)
     # py.iplot(fig, filename='styled-line')
-    filename = "%s.png" % place_range
-    py.image.save_as(fig, filename)
+    filenameT = "%sTemp.png" % place_range
+    filenameP = "%sPres.png" % place_range
+    # py.image.save_as(figT, filenameT)
+    # py.image.save_as(figP, filenameP)
+    
+    # dataTd = go.Data(dataT)
+    # dataPd = go.Data(dataP)
+    urlT = py.plot(figT, filename = filenameT)
+    urlP = py.plot(figP, filename = filenameP)
+    
+    
+    return {"tempUrl": urlT, "presUrl" : urlP}
 
 
-
-
-def main():
+def apiTimeMachineHandler(query):
     #open URL
-    loc = getLocation()
+    loc = getLocation(query['location'])
     webURL = urllib2.urlopen(loc[1])
     placename = loc[0]
     print webURL.getcode()
@@ -184,24 +198,18 @@ def main():
     if (webURL.getcode() == 200):
 		data = webURL.read()
 		l = getLatLong(data)
-		sTime = getStartTime()
-		eTime = getEndTime()
-		startDateOnly = sTime[0]
-		startTimeString = sTime[1]
-		endDateOnly = eTime[0]
-		endTimeString = eTime[1]
-		#weather = getWeather(l[0], l[1], sTime)
-		
-        #graphHistorical will make many calls to getWeather
-		historical = getHistorical(placename,l[0],l[1],startDateOnly, startTimeString, endDateOnly, endTimeString)
-# 		print historical[0]
-# 		print historical[1]
-# 		print historical[2]
-		graphHistorical(historical)
-		print "--------------"
 
+		startDateOnly = '%s-%s-%s' % (query['startyear'], query['startmonth'], query['startday'])
+		startTimeString = '00:00:00'
+		endDateOnly = '%s-%s-%s' % (query['endyear'], query['endmonth'], query['endday'])
+		endTimeString = '00:00:00'
 		
-if __name__ == "__main__":
-    main()
-    
+        #getHistorical will make a call to getWeather per month in the historical range
+        #graphHistorical should actuall give the plotly urls of the graphs
+		historical = getHistorical(placename,l[0],l[1],startDateOnly, startTimeString, endDateOnly, endTimeString)
+		urls = graphHistorical(historical)
+		
+    return urls
+		
+
     

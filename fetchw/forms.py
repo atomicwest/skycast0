@@ -22,21 +22,21 @@ class SearchLocationForm(forms.Form):
     # print location
     def clean(self):
       data = self.cleaned_data['location']
-    #   data = self.cleaned_data
     
-    #   #raise ValidationError()
-       
-    #   return data
-    # class Meta:
-    #     fields = ['location']
     
 
 class TimeSearchLocationForm(forms.Form):
     location = forms.CharField(required=True)
     thisyear = datetime.datetime.now().year
-    startyear = forms.ChoiceField(choices=[(x,x) for x in range(1970, thisyear+1)])
-    endmonth = forms.ChoiceField(choices=[(x,x) for x in range(1970, thisyear+1)])
-    endyear = forms.ChoiceField(choices=[(x,x) for x in range(1970, thisyear+1)])
+    startyear = forms.CharField(required=True)
+    startmonth = forms.CharField(required=True)
+    startday = forms.CharField(required=True)
+    endyear = forms.CharField(required=True)
+    endmonth = forms.CharField(required=True)
+    endday = forms.CharField(required=True)
+    
+    # def clean(self):
+    #   data = self.cleaned_data['location']
 
 class UserLoginForm(forms.Form):
     username = forms.CharField(max_length=50)

@@ -8,11 +8,13 @@ from .models import TestWeather, DummyUser, DummyQuery
 from django.contrib import auth
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.views.generic import View
-from .forms import UserLoginForm, RegisterForm, SearchLocationForm
+from .forms import UserLoginForm, RegisterForm, SearchLocationForm, TimeSearchLocationForm
 
 from django.http import HttpResponseRedirect, HttpResponse
 
 from .getCurrentForecast import apiCurrentHandler
+from .getTimeMachine import apiTimeMachineHandler
+
 
 #landing page where user performs the search
 def index(request):
@@ -21,7 +23,6 @@ def index(request):
 
 def search(request):
     form = SearchLocationForm()
-    print "SOMETHING"
     if request.method=='POST':
         form = SearchLocationForm(request.POST)
         # print form
@@ -40,7 +41,26 @@ def search(request):
 
 
 def timesearch(request):
-    return render(request,'fetchw/time-search.html')
+    form = TimeSearchLocationForm()
+    if request.method=='POST':
+        form = TimeSearchLocationForm(request.POST)
+        if form.is_valid():
+            content = {}
+            content['location'] = form.cleaned_data['location']
+            content['startyear'] = form.cleaned_data['startyear']
+            content['startmonth'] = form.cleaned_data['startmonth']
+            content['startday'] = form.cleaned_data['startday']
+            content['endyear'] = form.cleaned_data['endyear']
+            content['endmonth'] = form.cleaned_data['endmonth']
+            content['endday'] = form.cleaned_data['endday']
+            
+            #this dictionary should contain the plotly graph urls
+            graphs = apiTimeMachineHandler(content)
+            
+            return render(request, 'fetchw/time-results.html', {'form': form, 'graphs': graphs })
+    else:
+        form = TimeSearchLocationForm()
+    return render(request,'fetchw/time-search.html', {'form':form})
 
 
 
