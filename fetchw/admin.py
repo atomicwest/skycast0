@@ -3,9 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from .models import TestWeather, DummyUser, DummyQuery
+# from .models import Query
 # Register your models here.
 
-admin.site.register(TestWeather)
-admin.site.register(DummyUser)
-admin.site.register(DummyQuery)
+# admin.site.register(Query)

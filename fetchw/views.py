@@ -3,10 +3,11 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .models import TestWeather, DummyUser, DummyQuery
+# from .models import Query
 
 from django.contrib import auth
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.models import User
 from django.views.generic import View
 from .forms import UserLoginForm, RegisterForm, SearchLocationForm, TimeSearchLocationForm
 
@@ -63,25 +64,41 @@ def timesearch(request):
     return render(request,'fetchw/time-search.html', {'form':form})
 
 
-
-
-def listing(request):
-    # all_objects = TestWeather.objects.all()
-    all_objects = DummyUser.objects.all()
+def register(request):
+    form = RegisterForm()
+    if request.method=='POST':
+        form = RegisterForm(request.POST)
+        
+        print form
+        print form.is_valid()
+        
+        if form.is_valid():
+            userinfo = {}
+            userinfo['username'] = form.cleaned_data['username']
+            pw = form.cleaned_data['password']
+            # userinfo['password'] = form.cleaned_data['password']
+            userinfo['email'] = form.cleaned_data['email']
+            
+            #check database to see if user exists
+            
+            user = User.objects.create_user(userinfo['username'], userinfo['email'],pw)
+            
+            #authenticate and bring to user profile page
+            # user = authenticate(request, username=userinfo['username'], password=pw)
+            # user = authenticate(username=userinfo['username'], password=pw)
+            
+            if user is not None:
+                login(request, user)
+                return render(request,'fetchw/user-profile.html', {'form':form, 'userinfo':userinfo})
+            else:
+                return render(request,'fetchw/register.html', {'form':form})
+            
+    return render(request,'fetchw/register.html', {'form':form})
     
-    #use dictionary to pass db info to template
-    context = {
-        'all_objects': all_objects,
-    }
-    
-    return render(request, 'fetchw/listing.html', context)
 
-    
-    
-def detail(request, query_id):
-    record = get_object_or_404(DummyUser, id=query_id)
-    return render(request, 'fetchw/listing-detail.html', {'record': record})
-
+def logout_view(request):
+    logout(request)
+    return render(request, 'fetchw/search.html', {})
 
 def login_view(request):
     form = UserLoginForm(request.POST or None)
@@ -91,37 +108,20 @@ def login_view(request):
         password = request.POST.get('password', '')
         user = auth.authenticate(username=username, password=password)
         print username
-        print password
+        
         print user
-        if user is None:
+        if user is not None:
             # return HttpResponseRedirect(reverse('error'))
-            return render(request,'fetchw/login_fail.html', {"form":form})
-        if not user.is_active:
+            login(request,user)
+            return render(request,'fetchw/user-profile.html', {"form":form})
+        else:
             return render(request,'fetchw/login_fail.html', {"form":form})
 
-        # Correct password, and the user is marked "active"
-        auth.login(request, user)
-        # Redirect to a success page.
-        # return HttpResponseRedirect(reverse('home'))
-        
-    #     # form = UserLoginForm(request.POST or None)
-    #     form = UserLoginForm(request.POST)
-    #     testcred = {"username": "test", "password":"password123"}
-    #     testform = UserLoginForm(testcred)
-    #     print testform.is_valid()
-    #     print form
-    #     print form.is_valid()
-    #     if form.is_valid():
-    #         username = form.cleaned_data.get("username")
-    #         password = form.cleaned_data.get("password")
-    # else:
-    #     form = UserLoginForm()
+
         
     return render(request,'fetchw/login.html', {"form":form})
     
-def register(request):
-    form = RegisterForm(request.POST or None)
-    return render(request,'fetchw/register.html', {'form':form})
+
 
             
         

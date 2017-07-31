@@ -20,8 +20,8 @@ import datetime
 class SearchLocationForm(forms.Form):
     location = forms.CharField(required=True)
     # print location
-    def clean(self):
-      data = self.cleaned_data['location']
+    # def clean(self):
+    #   data = self.cleaned_data['location']
     
     
 
@@ -37,6 +37,14 @@ class TimeSearchLocationForm(forms.Form):
     
     # def clean(self):
     #   data = self.cleaned_data['location']
+
+
+class RegisterForm(forms.Form):
+    username = forms.CharField()
+    email = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    
+    
 
 class UserLoginForm(forms.Form):
     username = forms.CharField(max_length=50)
@@ -60,7 +68,6 @@ class UserLoginForm(forms.Form):
         return {"username": username, "password": password}
         
         
-class RegisterForm(forms.Form):
-    username = forms.CharField()
-    email = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+
+    
+    

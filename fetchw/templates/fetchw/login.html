@@ -22,12 +22,12 @@
                       {% csrf_token %}
                       <div class="form-group">
                         <label for="UsernameInput">Username</label>
-                        <input type="text" class="form-control" id="UsernameInput" placeholder="Enter username">
+                        <input type="text" class="form-control" id="UsernameInput" name="username" placeholder="Enter username">
                       </div>
 
                       <div class="form-group">
                         <label for="PasswordInput">Password</label>
-                        <input type="password" class="form-control" id="PasswordInput" placeholder="Password">
+                        <input type="password" class="form-control" id="PasswordInput" name="password" placeholder="Password">
                       </div>
                       
                       <button type="submit" class="btn btn-primary">Submit</button>
