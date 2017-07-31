@@ -1,0 +1,51 @@
+{% extends 'fetchw/navbar.html' %}
+
+{% block content %}
+</br></br></br></br>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-9 pull-md-3 bd-content">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>New User Registration</h2>
+                    
+                    {% if error_message %}
+                        <h3><strong> {{ error_message }} </strong></h3>
+                    {% endif %}
+                    
+                    <form action="" method="post">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label for="UsernameInput">Username</label>
+                        <input type="text" class="form-control" id="UsernameInput" placeholder="Enter username">
+                      </div>
+                      <div class="form-group">
+                        <label for="EmailInput">Email address</label>
+                        <input type="email" class="form-control" id="EmailInput" aria-describedby="emailHelp" placeholder="Enter email">
+                      </div>
+                      <div class="form-group">
+                        <label for="PasswordInput">Password</label>
+                        <input type="password" class="form-control" id="PasswordInput" placeholder="Password">
+                      </div>
+                      
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    footer{
+        bottom: 0;
+    }
+</style>
+
+
+
+{% include 'fetchw/footer.html' %}
+
+{% endblock %}
+

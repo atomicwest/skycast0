@@ -1,0 +1,60 @@
+{% extends 'fetchw/navbar.html' %}
+
+{% block content%} 
+</br></br></br></br></br>
+<h2 align="center">SkyCast</h2>
+
+<div id="title">
+  <p align="center">Get weather data for a location</p>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6 ">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    
+                    {% if error_message %}
+                        <h3><strong> {{ error_message }} </strong></h3>
+                    {% endif %}
+                    
+                    {% if form.errors %}
+                        <p style="color:red;"><strong> Could not find location </strong></p>
+                    {% endif %}
+                    
+                    <form action="{% url 'fetchw:search' %}" method="post">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label for="location" align="center">Enter a location</label>
+                        <input type="text" class="form-control" id="location" name="location" placeholder="City, Town, or Address">
+                      </div>
+                      
+                      <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</br></br>
+<div class="container">
+    <div class="row">
+        <div class="text-center">
+            <h4>Get historical data instead</h4>
+            <a href="{% url 'fetchw:timesearch' %}" class="btn btn-primary" role="button" aria-disabled="true">Time Machine Search</a>    
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    footer{
+        bottom: 0;
+    }
+</style>
+
+
+
+{% include 'fetchw/footer.html' %}
+
+{% endblock %}

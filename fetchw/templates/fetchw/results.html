@@ -1,0 +1,95 @@
+{% extends 'fetchw/navbar.html' %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+</br></br></br></br>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6 ">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% if weather %}
+                        <h4>Current Weather for {{ weather.inputQ }} on {{ weather.current.date }} GMT </h4>
+                            
+                            <h1>{{ weather.current.summary }}</h1>
+                            
+                            <img src="../../static/img/{{weather.current.icon}}.png" alt="img/{{ weather.current.icon }}.png">
+                            
+                            <h1>{{ weather.current.temperature }}</h1>
+                            
+                            <p><strong>GMT Time: </strong> {{ weather.current.time }} </p>
+                            
+                            <p>Humidity: {{ weather.current.humidity }}</p>
+                            
+                            <p>Change of Precipitation: {{ weather.current.precipProbability }}</p>
+                            
+                            {% if weather.current.alerts %}
+                                <hr>
+                                {% for d in weather.current.alerts %}
+                                    <h4 style="color:red;">{{ d.description }}</h4>
+                                    
+                                    <h5>Alert effective on: </h5>
+                                    <p>{{ d.time }}</p>
+                                    
+                                    <h5>Alert expires on: </h5>
+                                    <p>{{ d.expires }}</p>
+                                    
+                                    <h5> Affected Regions </h5>
+                                    {% for r in d.regions %}
+                                        <p>{{ r }}</p>
+                                    {% endfor %}
+                                    
+                                    <a href="{{ d.uri }}">More Information</a>
+                                    </br>
+                                {% endfor %}
+                                <hr>
+                            {% endif %}
+                        
+                        </br>
+                        </br>
+                        
+                        <div class="container-fluid">
+                        <h2>Weather Forecast for {{ weather.inputQ }}</h2>
+                            <hr>
+                            
+                            
+                            {% for day in weather.forecast %} 
+                            <div class="row">
+                                <h3> {{ day.date }} </h3>
+                                <h4>{{ weather.current.summary }}</h4>
+                                <img width="15%" src="../../static/img/{{day.icon}}.png" alt="img/{{ day.icon }}.png">
+                                
+                                <p>Highs: {{ day.high }}</p>
+                                <p>Lows: {{ day.low }}</p>
+                                <p>Humidity: {{ day.humidity }} </p>
+                                <p>Chance of precipitation: {{ day.precip }}</p>
+                                <hr>
+                            </div>
+                            {% endfor %}
+                            
+                        </div>    
+                    {% else %}
+                    
+                        <h4 style="color:red;"> Data was not found</h4>
+                        
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    footer{
+        bottom: 0;
+    }
+</style>
+
+
+
+{% include 'fetchw/footer.html' %}
+
+{% endblock %}

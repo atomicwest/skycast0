@@ -1,0 +1,12 @@
+h1,h2,h3,h4,h5,p,.navbar {
+    font-family: Verdana;
+}
+
+nav {
+    padding: 10px;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}

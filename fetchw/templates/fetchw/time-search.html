@@ -1,0 +1,94 @@
+{% include  'fetchw/navbar.html' %}
+
+
+{% block content%} 
+</br></br></br></br></br>
+
+
+
+<h2 align="center">SkyCast Time Machine</h2>
+
+<div id="title">
+  <p align="center">Get a historical weather trend plot</p>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6 ">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    
+                    
+                    {% if form.errors %}
+                        <p style="color:red;"><strong> Bad location or search dates </strong></p>
+                    {% endif %}
+                    
+                    <form action="{% url 'fetchw:timesearch' %}" method="post">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label for="location" align="center">Location</label>
+                        <input type="text" class="form-control" id="location" name="location" placeholder="City, Town, or Address">
+                      </div>
+                      
+                      <div class="form-group">
+                            <table style="border-collapse: separate; border-spacing: 20px 0;" border="0" width="100%" >
+                                 <tr>
+                                    <td>
+                                        <label for="startyear" align="center">Start Year</label>
+                                        <input type="text" class="form-control" id="startyear" name="startyear" placeholder="any year equal to or greater than 1970">     
+                                    </td>
+                                    
+                                    <td>
+                                        <label for="endyear" align="center">End Year</label>
+                                        <input type="text" class="form-control" id="endyear" name="endyear" placeholder="i.e. 2000">        
+                                    </td>
+                                 </tr> 
+                                 <tr>
+                                     <td>
+                                        <label for="startmonth" align="center">Start Month</label>
+                                        <input type="text" class="form-control" id="startmonth" name="startmonth" placeholder="Enter the month number, i.e. March = 03">         
+                                     </td>
+                                     <td>
+                                        <label for="endmonth" align="center">End Month</label>
+                                        <input type="text" class="form-control" id="endmonth" name="endmonth" placeholder="Enter the month number, i.e. July = 07">         
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                        <label for="startday" align="center">Start Day</label>
+                                        <input type="text" class="form-control" id="startday" name="startday" placeholder="Enter day">         
+                                     </td>
+                                     <td>
+                                        <label for="endday" align="center">End Day</label>
+                                        <input type="text" class="form-control" id="endday" name="endday" placeholder="Enter day">
+                                     </td>
+                                 </tr>
+                            </table>
+                      </div>
+                      
+                      <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="text-center">
+            <h4>Go back to current weather and forecast</h4>
+            <a href="{% url 'fetchw:search' %}" class="btn btn-primary" role="button" aria-disabled="true">Regular Search</a>    
+        </div>
+    </div>
+</div>
+</br>
+<style type="text/css">
+    footer{bottom: 0;}
+</style>
+
+{% include 'fetchw/footer.html' %}
+
+{% endblock %}
