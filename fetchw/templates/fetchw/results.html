@@ -1,6 +1,6 @@
 {% extends 'fetchw/navbar.html' %}
 
-{% load staticfiles %}
+{% load static %}
 
 {% block content %}
 
@@ -12,7 +12,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     {% if weather %}
-                        <h2>Current Weather for {{ weather.inputQ }} on {{ weather.current.date }} GMT </h2>
+                        <h2>Current Weather for {{ weather.inputQ }} on {{ weather.current.date }} </h2>
                             
                             <h1>{{ weather.current.summary }}</h1>
                             

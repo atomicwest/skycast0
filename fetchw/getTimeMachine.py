@@ -187,6 +187,11 @@ def graphHistorical(historical):
     return {"tempUrl": urlT, "presUrl" : urlP}
 
 
+def padder(snum):
+    if (int(snum) < 10) and len(snum)<2:
+        return '0'+snum
+    return snum
+
 def apiTimeMachineHandler(query):
     #open URL
     loc = getLocation(query['location'])
@@ -198,10 +203,14 @@ def apiTimeMachineHandler(query):
     if (webURL.getcode() == 200):
 		data = webURL.read()
 		l = getLatLong(data)
-
-		startDateOnly = '%s-%s-%s' % (query['startyear'], query['startmonth'], query['startday'])
+		startM = query['startmonth']
+		startD = query['startday']
+		endM = query['endmonth']
+		endD = query['endday']
+        
+		startDateOnly = '%s-%s-%s' % (query['startyear'], padder(startM), padder(startD))
 		startTimeString = '00:00:00'
-		endDateOnly = '%s-%s-%s' % (query['endyear'], query['endmonth'], query['endday'])
+		endDateOnly = '%s-%s-%s' % (query['endyear'], padder(endM), padder(endD))
 		endTimeString = '00:00:00'
 		
         #getHistorical will make a call to getWeather per month in the historical range

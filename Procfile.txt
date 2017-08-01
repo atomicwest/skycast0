@@ -1,0 +1,1 @@
+web: gunicorn SkyCast.wsgi:application --log-file -
