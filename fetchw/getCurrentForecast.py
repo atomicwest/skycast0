@@ -17,7 +17,7 @@ def getLocation(place):
     # address = "1600+Amphitheatre+Parkway,+Mountain+View,+CA"
     # address = "Lisbon"
     keyConcat = "&key="
-    key = "AIzaSyC0xRZYhpoV14WiwdKSeWgAJgSCZkMD_g0"
+    key = "YOUR_KEY"
 
     urlComplete = url + address + keyConcat + key
     
@@ -33,7 +33,7 @@ def getLatLong(d):
 
 def getWeather(lat, lng):
 	url = "https://api.darksky.net/forecast/"
-	sk = "6827351e56557cfc282c0cadb4e3d4e6"
+	sk = "YOUR_KEY"
 	urlcomplete =  url + sk + "/" + str(lat) + "," + str(lng)
 	
 	#open URL 

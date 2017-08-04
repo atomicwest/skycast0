@@ -24,6 +24,7 @@ Time Machine Search Example Result:
 Notes:
 * The Google API will perform a best-guess search if a location is ambiguous, i.e. Dublin, California, USA versus Dublin, Ireland. It is recommended that you specify regions with comma separators
 * The Dark Sky API returns a lot of data that may not necessarily be useful to the average inquirer, such as ozone. The code can be easily modified to return these values.
+* Replace API details (e.g. YOUR_KEY and username) in the getTimeMachine and getCurrentForecast scripts
 
 APIs:
 

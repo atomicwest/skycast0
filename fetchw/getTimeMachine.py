@@ -11,7 +11,7 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 import plotly.tools as tls
 
-plotly.tools.set_credentials_file(username='atomicwest', api_key='EHcu4pz4kxCrlIXDlXPB')
+plotly.tools.set_credentials_file(username='USERNAME', api_key='YOUR_KEY')
 
 def convertSec(s):
     time = datetime.datetime.fromtimestamp(int(s)).strftime('%Y-%m-%d %H:%M:%S')
@@ -23,7 +23,7 @@ def getLocation(place):
     address = place.replace(' ', '+')
     url = "https://maps.googleapis.com/maps/api/geocode/json?address="
     keyConcat = "&key="
-    key = "AIzaSyC0xRZYhpoV14WiwdKSeWgAJgSCZkMD_g0"
+    key = "YOUR_KEY"
 
     urlComplete = url + address + keyConcat + key
     
@@ -39,7 +39,7 @@ def getLatLong(d):
 
 def getWeather(lat, lng, startTime):
 	url = "https://api.darksky.net/forecast/"
-	sk = "6827351e56557cfc282c0cadb4e3d4e6"
+	sk = "YOUR_KEY"
 
 # 	startTime = startTime.replace(' ','')
 	urlcomplete =  url + sk + "/" + str(lat) + "," + str(lng)
