@@ -27,6 +27,7 @@ Notes:
 * The Dark Sky API returns a lot of data that may not necessarily be useful to the average inquirer, such as ozone. The code can be easily modified to return these values.
 * Replace API details (e.g. YOUR_KEY and username) in the getTimeMachine and getCurrentForecast scripts
 * Replace Google Map API key in results.html template (where YOUR_KEY is located)
+* Change database information for your database (DBMS, database, username, password) in settings.py
 
 APIs:
 

@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'skycast.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'skycastusers',
-        'USER': 'skycastadmin',
-        'PASSWORD': 'skycastisskynet935',
+        'NAME': 'db_name',
+        'USER': 'db_user',
+        'PASSWORD': 'your_password',
         'HOST': 'localhost',
         'PORT': '',
     }
