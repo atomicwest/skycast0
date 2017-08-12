@@ -22,8 +22,8 @@
                                     
                                     <h1>{{ weather.current.temperature }}</h1>
                                     
-                                    <p><strong>GMT Time: </strong> {{ weather.current.time }} </p>
-                                    
+                                    <p><strong> Local Time: </strong> {{ weather.current.time }} </p>
+                                    <p>Time Zone: {{ weather.current.timezone }}</p>
                                     <p>Humidity: {{ weather.current.humidity }}</p>
                                     
                                     <p>Chance of Precipitation: {{ weather.current.precipProbability }}</p>
@@ -48,7 +48,7 @@
                               }
                             </script>
                             <script async defer
-                            src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=initMap">
+                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0xRZYhpoV14WiwdKSeWgAJgSCZkMD_g0&callback=initMap">
                             </script>
                             
                             {% if weather.current.alerts %}

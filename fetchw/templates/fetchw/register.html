@@ -11,7 +11,7 @@
                     <h2>New User Registration</h2>
                     
                     {% if error_message %}
-                        <h3><strong> {{ error_message }} </strong></h3>
+                        <h3 id="error_register" style="color:#ff0000;"><strong> {{ error_message }} </strong></h3>
                     {% endif %}
                     
                     <form action="{% url 'fetchw:register' %}" method="post">

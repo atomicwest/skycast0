@@ -36,7 +36,7 @@ def search(request):
             #if a user is logged in, copy the location to a query object
             #associate with the user id, then save query object to db
             if request.user.is_authenticated():
-                print request.user.id
+                # print request.user.id
                 q = Query(userid=request.user, query=content)
                 q.save()
                 
@@ -88,29 +88,43 @@ def register(request):
     if request.method=='POST':
         form = RegisterForm(request.POST)
         
-        print form
-        print form.is_valid()
+        # print form
+        # print form.is_valid()
         
         if form.is_valid():
-            userinfo = {}
-            userinfo['username'] = form.cleaned_data['username']
-            pw = form.cleaned_data['password']
-            # userinfo['password'] = form.cleaned_data['password']
-            userinfo['email'] = form.cleaned_data['email']
+                
+            if User.objects.filter(username=form.cleaned_data['username']).exists():
+                return render(request,'fetchw/register.html', {'error_message':"Username already exists"})
             
-            #check database to see if user exists
+            elif User.objects.filter(email=form.cleaned_data['email']).exists():
+                return render(request,'fetchw/register.html', {'error_message':"Email already exists"})
             
-            user = User.objects.create_user(userinfo['username'], userinfo['email'],pw)
-            
-            #authenticate and bring to user profile page
-            # user = authenticate(request, username=userinfo['username'], password=pw)
-            # user = authenticate(username=userinfo['username'], password=pw)
-            
-            if user is not None:
-                login(request, user)
-                return render(request,'fetchw/user-profile.html', {'form':form, 'userinfo':userinfo})
+            # elif not User.objects.filter(username=form.cleaned_data['username']).exists() and not User.objects.filter(email=form.cleaned_data['email']).exists():
             else:
-                return render(request,'fetchw/register.html', {'form':form})
+                userinfo = {}
+                userinfo['username'] = form.cleaned_data['username']
+                pw = form.cleaned_data['password']
+            
+                # userinfo['password'] = form.cleaned_data['password']
+                userinfo['email'] = form.cleaned_data['email']
+                
+                #check database to see if user exists
+                
+                user = User.objects.create_user(userinfo['username'], userinfo['email'],pw)
+                
+                #authenticate and bring to user profile page
+                # user = authenticate(request, username=userinfo['username'], password=pw)
+                # user = authenticate(username=userinfo['username'], password=pw)
+                
+                if user is not None:
+                    login(request, user)
+                    return render(request,'fetchw/user-profile.html', {'form':form, 'userinfo':userinfo})
+                else:
+                    return render(request,'fetchw/register.html', {'form':form})
+            
+                
+        else:
+            return render(request,'fetchw/register.html', {'error_message':"Username, email, and/or password cannot be blank"})
             
     return render(request,'fetchw/register.html', {'form':form})
     
@@ -126,13 +140,15 @@ def login_view(request):
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
         user = auth.authenticate(username=username, password=password)
-        print username
+        # print username
         
-        print user
+        # print user
         if user is not None:
             # return HttpResponseRedirect(reverse('error'))
             login(request,user)
-            return render(request,'fetchw/user-profile.html', {"form":form})
+            # return render(request,'fetchw/user-profile.html', {"form":form})
+            queries = Query.objects.filter(userid=request.user.id)
+            return render(request,'fetchw/user-profile.html', {'queries':queries})
         else:
             return render(request,'fetchw/login_fail.html', {"form":form})
 
@@ -150,5 +166,10 @@ def homepage(request):
     else:
         return render(request,'fetchw/search.html')
         
+
+def testmap(request):
     
+    testcoord = { "lat": -36.88361, "lng": -58.125635 }
+    
+    return render(request, 'fetchw/testmap.html', {'weather': testcoord})
     
