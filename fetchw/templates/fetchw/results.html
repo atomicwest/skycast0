@@ -76,26 +76,193 @@
                         </br>
                         </br>
                         
-                        <div class="container-fluid">
+                        <script type="text/javascript" src="panels.js"></script>
+                        <script>
+                            var fcast = angular.module('forecast', []).config(function($interpolateProvider){
+                                $interpolateProvider.startSymbol = ('{$');
+                                $interpolateProvider.endSymbol = ('$}');
+                            });
+
+                            fcast.controller('PanelController', function() {
+                               this.day = 0;
+                               this.selectTab = function(dayval){
+                                 this.day = dayval;  
+                               };
+                               this.isSelected = function(checkDay){
+                                    return this.day === checkDay;  
+                               };
+                            });
+                        </script>
+                        
+                        
+                        <style>
+                            li {
+                                width:13%;
+                            }
+                        </style>
+                        
+                        <div class="container-fluid" data-ng-app="forecast">
                         <h2>Weather Forecast for {{ weather.inputQ }}</h2>
                             <hr>
                             
-                            
-                            {% for day in weather.forecast %} 
-                            <div class="row">
-                                <h3> {{ day.date }} </h3>
-                                <h4>{{ day.summary }}</h4>
-                                <img width="15%" src="../../static/img/{{day.icon}}.png" alt="img/{{ day.icon }}.png">
+                            <section ng-controller="PanelController as panel">
                                 
-                                <p>Highs: {{ day.high }}</p>
-                                <p>Lows: {{ day.low }}</p>
-                                <p>Humidity: {{ day.humidity }} </p>
-                                <p>Chance of precipitation: {{ day.precip }}</p>
-                                <hr>
-                            </div>
-                            {% endfor %}
+                                <ul class="nav nav-pills nav-forecast">
+                                    
+                                    <li ng-class="{ active:panel.isSelected(0) }">
+                                        <a href ng-click="panel.selectTab(0)" >
+                                            <p>{{ weather.forecast.0.date|slice:"5:" }}</p>
+                                            <img width="100%" src="../../static/img/{{weather.forecast.0.icon}}.png" alt="img/{{ weather.forecast.0.icon }}.png">
+                                            <p>{{ weather.forecast.0.high }}</p>
+                                            
+                                            <p>{{ weather.forecast.0.low }}</p>
+                                        </a>
+                                    </li>
+                                    
+                                    <li ng-class="{ active:panel.isSelected(1) }">
+                                        <a href ng-click="panel.selectTab(1)">
+                                            <p>{{ weather.forecast.1.date|slice:"5:" }}</p>
+                                            <img width="100%" src="../../static/img/{{weather.forecast.1.icon}}.png" alt="img/{{ weather.forecast.1.icon }}.png">
+                                            <p>{{ weather.forecast.1.high }}</p>
+                                            
+                                            <p>{{ weather.forecast.1.low }}</p>
+                                        </a>
+                                    </li>
+                                    
+                                    <li ng-class="{ active:panel.isSelected(2) }">
+                                        <a href ng-click="panel.selectTab(2)">
+                                            <p>{{ weather.forecast.2.date|slice:"5:" }}</p>
+                                            <img width="100%" src="../../static/img/{{weather.forecast.2.icon}}.png" alt="img/{{ weather.forecast.2.icon }}.png">
+                                            <p>{{ weather.forecast.2.high }}</p>
+                                            
+                                            <p>{{ weather.forecast.2.low }}</p>
+                                        </a>
+                                    </li>
+                                    
+                                    <li ng-class="{ active:panel.isSelected(3) }">
+                                        <a href ng-click="panel.selectTab(3)">
+                                            <p>{{ weather.forecast.3.date|slice:"5:" }}</p>
+                                            <img width="100%" src="../../static/img/{{weather.forecast.3.icon}}.png" alt="img/{{ weather.forecast.3.icon }}.png">
+                                            <p>{{ weather.forecast.3.high }}</p>
+                                            
+                                            <p>{{ weather.forecast.3.low }}</p>
+                                        </a>
+                                    </li>
+                                    
+                                    <li ng-class="{ active:panel.isSelected(4) }">
+                                        <a href ng-click="panel.selectTab(4)">
+                                            <p>{{ weather.forecast.4.date|slice:"5:" }}</p>
+                                            <img width="100%" src="../../static/img/{{weather.forecast.4.icon}}.png" alt="img/{{ weather.forecast.4.icon }}.png">
+                                            <p>{{ weather.forecast.4.high }}</p>
+                                            
+                                            <p>{{ weather.forecast.4.low }}</p>
+                                        </a>
+                                    </li>
+                                    
+                                    <li ng-class="{ active:panel.isSelected(5) }">
+                                        <a href ng-click="panel.selectTab(5)">
+                                            <p>{{ weather.forecast.5.date|slice:"5:" }}</p>
+                                            <img width="100%" src="../../static/img/{{weather.forecast.5.icon}}.png" alt="img/{{ weather.forecast.5.icon }}.png">
+                                            <p>{{ weather.forecast.5.high }}</p>
+                                            
+                                            <p>{{ weather.forecast.5.low }}</p>
+                                        </a>
+                                    </li>
+                                    
+                                    <li ng-class="{ active:panel.isSelected(6) }">
+                                        <a href ng-click="panel.selectTab(6)">
+                                            <p>{{ weather.forecast.6.date|slice:"5:" }}</p>
+                                            <img width="100%" src="../../static/img/{{weather.forecast.6.icon}}.png" alt="img/{{ weather.forecast.6.icon }}.png">
+                                            <p>{{ weather.forecast.6.high }}</p>
+                                            
+                                            <p>{{ weather.forecast.6.low }}</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                                
+                                    <div class="panel" ng-show="panel.isSelected(0)">
+                                        <h3> {{ weather.forecast.0.date }} </h3>
+                                        <h4>{{ weather.forecast.0.summary }}</h4>
+                                        <img width="20%" src="../../static/img/{{weather.forecast.0.icon}}.png" alt="img/{{ weather.forecast.0.icon }}.png">
+                                        
+                                        <p>High: {{ weather.forecast.0.high }}</p>
+                                        <p>Low: {{ weather.forecast.0.low }}</p>
+                                        <p>Humidity: {{ weather.forecast.0.humidity }} </p>
+                                        <p>Chance of precipitation: {{ weather.forecast.0.precip }}</p>
+                                    </div>
+                                    
+                                    <div class="panel" ng-show="panel.isSelected(1)">
+                                        <h3> {{ weather.forecast.1.date }} </h3>
+                                        <h4>{{ weather.forecast.1.summary }}</h4>
+                                        <img width="20%" src="../../static/img/{{weather.forecast.1.icon}}.png" alt="img/{{ weather.forecast.1.icon }}.png">
+                                        
+                                        <p>High: {{ weather.forecast.1.high }}</p>
+                                        <p>Low: {{ weather.forecast.1.low }}</p>
+                                        <p>Humidity: {{ weather.forecast.1.humidity }} </p>
+                                        <p>Chance of precipitation: {{ weather.forecast.1.precip }}</p>
+                                    </div>
+                                    
+                                    <div class="panel" ng-show="panel.isSelected(2)">
+                                        <h3> {{ weather.forecast.2.date }} </h3>
+                                        <h4>{{ weather.forecast.2.summary }}</h4>
+                                        <img width="20%" src="../../static/img/{{weather.forecast.2.icon}}.png" alt="img/{{ weather.forecast.2.icon }}.png">
+                                        
+                                        <p>High: {{ weather.forecast.2.high }}</p>
+                                        <p>Low: {{ weather.forecast.2.low }}</p>
+                                        <p>Humidity: {{ weather.forecast.2.humidity }} </p>
+                                        <p>Chance of precipitation: {{ weather.forecast.2.precip }}</p>
+                                    </div>
+                                    
+                                    <div class="panel" ng-show="panel.isSelected(3)">
+                                        <h3> {{ weather.forecast.3.date }} </h3>
+                                        <h4>{{ weather.forecast.3.summary }}</h4>
+                                        <img width="20%" src="../../static/img/{{weather.forecast.3.icon}}.png" alt="img/{{ weather.forecast.3.icon }}.png">
+                                        
+                                        <p>High: {{ weather.forecast.3.high }}</p>
+                                        <p>Low: {{ weather.forecast.3.low }}</p>
+                                        <p>Humidity: {{ weather.forecast.3.humidity }} </p>
+                                        <p>Chance of precipitation: {{ weather.forecast.3.precip }}</p>
+                                    </div>
+                                    
+                                    <div class="panel" ng-show="panel.isSelected(4)">
+                                        <h3> {{ weather.forecast.4.date }} </h3>
+                                        <h4>{{ weather.forecast.4.summary }}</h4>
+                                        <img width="20%" src="../../static/img/{{weather.forecast.4.icon}}.png" alt="img/{{ weather.forecast.4.icon }}.png">
+                                        
+                                        <p>High: {{ weather.forecast.4.high }}</p>
+                                        <p>Low: {{ weather.forecast.4.low }}</p>
+                                        <p>Humidity: {{ weather.forecast.4.humidity }} </p>
+                                        <p>Chance of precipitation: {{ weather.forecast.4.precip }}</p>
+                                    </div>
+                                    
+                                    <div class="panel" ng-show="panel.isSelected(5)">
+                                        <h3> {{ weather.forecast.5.date }} </h3>
+                                        <h4>{{ weather.forecast.5.summary }}</h4>
+                                        <img width="20%" src="../../static/img/{{weather.forecast.5.icon}}.png" alt="img/{{ weather.forecast.5.icon }}.png">
+                                        
+                                        <p>High: {{ weather.forecast.5.high }}</p>
+                                        <p>Low: {{ weather.forecast.5.low }}</p>
+                                        <p>Humidity: {{ weather.forecast.5.humidity }} </p>
+                                        <p>Chance of precipitation: {{ weather.forecast.5.precip }}</p>
+                                    </div>
+                                    
+                                    <div class="panel" ng-show="panel.isSelected(6)">
+                                        <h3> {{ weather.forecast.6.date }} </h3>
+                                        <h4>{{ weather.forecast.6.summary }}</h4>
+                                        <img width="20%" src="../../static/img/{{weather.forecast.6.icon}}.png" alt="img/{{ weather.forecast.6.icon }}.png">
+                                        
+                                        <p>High: {{ weather.forecast.6.high }}</p>
+                                        <p>Low: {{ weather.forecast.6.low }}</p>
+                                        <p>Humidity: {{ weather.forecast.6.humidity }} </p>
+                                        <p>Chance of precipitation: {{ weather.forecast.6.precip }}</p>
+                                    </div>
+                                    
+                                
+                            </section>
+                            
                             
                         </div>    
+                        
                     {% else %}
                     
                         <h4 style="color:red;"> Data was not found</h4>

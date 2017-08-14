@@ -6,6 +6,7 @@ import datetime
 from time import strftime
 
 import pytz
+import decimal 
 
 def convertSec(s, timezone):
     localTZ = pytz.timezone(timezone)
@@ -79,11 +80,11 @@ def formatCurrent(loc,diction):
         if k=='icon':
             data[k] = v
         if k=='temperature':
-            data[k] = str(v) + ' ' + unit['temp']
+            data[k] = str(round(v))[0:2] + ' ' + unit['temp']
         if k=='humidity':
-            data[k] = str(v*100)+"%"
+            data[k] = str(round(v*100))+"%"
         if k=='precipProbability':
-            data[k] = str(v*100)+"%"
+            data[k] = str(round(v*100))+"%"
         if k=='summary':
             data[k] = v
         else:
@@ -157,16 +158,16 @@ def formatForecast(loc,diction, tz):
             day["summary"] = n['summary']
             # print "Summary: %s" % n['summary']
         if "temperatureMax" in n.keys():
-            day["high"] = "%s %s" % (n['temperatureMax'], unit['temp'])
+            day["high"] = "%s %s" % (str(round(n['temperatureMax']))[0:2], unit['temp'])
             # print "High: %s %s" % (n['temperatureMax'], unit['temp'])
         if "temperatureMin" in n.keys():
-            day["low"] = "%s %s" % (n['temperatureMin'], unit['temp'])
+            day["low"] = "%s %s" % (str(round(n['temperatureMin']))[0:2], unit['temp'])
             # print "Low: %s %s" % (n['temperatureMin'], unit['temp'])
         if "precipProbability" in n.keys():
-            day["precip"] = str(n['precipProbability']*100)+"%"
+            day["precip"] = str(round(n['precipProbability']*100))+"%"
             # print "Chance of Precipitation: %s" % str(n['precipProbability']*100)+"%"
         if "humidity" in n.keys():
-            day["humidity"] = str(n['humidity']*100)+"%"
+            day["humidity"] = str(round(n['humidity']*100))+"%"
             # print "Humidity: %s" % str(n['humidity']*100)+"%"
         
         forecast.append(day)
