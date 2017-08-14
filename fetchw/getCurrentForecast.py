@@ -80,7 +80,7 @@ def formatCurrent(loc,diction):
         if k=='icon':
             data[k] = v
         if k=='temperature':
-            data[k] = str(round(v))[0:2] + ' ' + unit['temp']
+            data[k] = str(round(v)) + ' ' + unit['temp']
         if k=='humidity':
             data[k] = str(round(v*100))+"%"
         if k=='precipProbability':
@@ -158,10 +158,10 @@ def formatForecast(loc,diction, tz):
             day["summary"] = n['summary']
             # print "Summary: %s" % n['summary']
         if "temperatureMax" in n.keys():
-            day["high"] = "%s %s" % (str(round(n['temperatureMax']))[0:2], unit['temp'])
+            day["high"] = "%s %s" % (str(round(n['temperatureMax'])), unit['temp'])
             # print "High: %s %s" % (n['temperatureMax'], unit['temp'])
         if "temperatureMin" in n.keys():
-            day["low"] = "%s %s" % (str(round(n['temperatureMin']))[0:2], unit['temp'])
+            day["low"] = "%s %s" % (str(round(n['temperatureMin'])), unit['temp'])
             # print "Low: %s %s" % (n['temperatureMin'], unit['temp'])
         if "precipProbability" in n.keys():
             day["precip"] = str(round(n['precipProbability']*100))+"%"
