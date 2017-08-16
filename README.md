@@ -37,4 +37,10 @@ APIs:
 
 [Plotly](https://plot.ly/): visualizes historical weather data
 
+Built with:
+
+[Django](https://www.djangoproject.com/)
+
+[AngularJS](https://angularjs.org/)
+
 Hosted on [PythonAnywhere](https://www.pythonanywhere.com/)
