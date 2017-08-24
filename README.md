@@ -24,7 +24,7 @@ Time Machine Search Example Result:
 
 Notes:
 * The Google API will perform a best-guess search if a location is ambiguous, i.e. Dublin, California, USA versus Dublin, Ireland. It is recommended that you specify regions with comma separators
-* The Dark Sky API returns a lot of data that may not necessarily be useful to the average inquirer, such as ozone. The code can be easily modified to return these values.
+* The Dark Sky API returns a lot of data that may not necessarily be useful to the average inquirer, such as ozone. The code can be easily modified to return these values. There is also a 1000 request limit per day for a free DarkSky API account, which is why the time machine results only plot one day out of each month instead of every day in a year.
 * Replace API details (e.g. YOUR_KEY and username) in the getTimeMachine and getCurrentForecast scripts
 * Replace Google Map API key in results.html template (where YOUR_KEY is located)
 * Change database information for your database (DBMS, database, username, password) in settings.py
